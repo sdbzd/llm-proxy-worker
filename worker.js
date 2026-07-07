@@ -13,6 +13,7 @@ const API_ENDPOINTS = {
   // GitHub
   'github': 'https://api.github.com',
   'raw': 'https://raw.githubusercontent.com',
+  'gh-models': 'https://models.inference.ai.azure.com',
 
   // HuggingFace
   'hf': 'https://huggingface.co',
@@ -50,6 +51,7 @@ const API_KEYS = {
   'github': typeof GITHUB_TOKEN !== 'undefined' ? GITHUB_TOKEN : null,
   'gemini': typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : null,
   'gemini-oai': typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : null,
+  'gh-models': typeof GITHUB_TOKEN !== 'undefined' ? GITHUB_TOKEN : null,
   'hf': typeof HF_TOKEN !== 'undefined' ? HF_TOKEN : null,
   'hfi': typeof HF_TOKEN !== 'undefined' ? HF_TOKEN : null,
 };
