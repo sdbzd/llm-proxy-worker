@@ -5,6 +5,7 @@ const API_ENDPOINTS = {
   'openai': 'https://api.openai.com',
   'anthropic': 'https://api.anthropic.com',
   'gemini': 'https://generativelanguage.googleapis.com',
+'gemini-oai': 'https://generativelanguage.googleapis.com/v1beta/openai',
   'groq': 'https://api.groq.com',
   'sambanova': 'https://api.sambanova.ai',
   'azure': 'https://YOUR_AZURE_RESOURCE_NAME.openai.azure.com',
@@ -48,6 +49,7 @@ function rateLimit(ip) {
 const API_KEYS = {
   'github': typeof GITHUB_TOKEN !== 'undefined' ? GITHUB_TOKEN : null,
   'gemini': typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : null,
+  'gemini-oai': typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : null,
   'hf': typeof HF_TOKEN !== 'undefined' ? HF_TOKEN : null,
   'hfi': typeof HF_TOKEN !== 'undefined' ? HF_TOKEN : null,
 };
@@ -128,8 +130,11 @@ async function handleRequest(request) {
   // Inject API key if we have one for this provider
   if (API_KEYS[provider]) {
     if (provider === 'gemini') {
-      // Gemini uses query param, not header
+      // Native Gemini API: key goes in query param
       targetUrl.searchParams.set('key', API_KEYS[provider]);
+    } else if (provider === 'gemini-oai') {
+      // OpenAI-compatible Gemini: key goes in Bearer header
+      cleanedHeaders.set('Authorization', `Bearer ${API_KEYS[provider]}`);
     } else {
       cleanedHeaders.set('Authorization', `Bearer ${API_KEYS[provider]}`);
     }
